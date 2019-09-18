@@ -10,19 +10,24 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.*;
 
 public class selenium {
 	public static WebDriver driver;
 	
-	@Given("^user is  on signup page$")
-	public void user_is_on_homepage() {
+	@Before public void setup() {
 		System.setProperty("webdriver.chrome.driver","C:\\Users\\Avyaan\\Downloads\\selenium\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+	}
+	
+	@Given("^user is  on signup page$")
+	public void user_is_on_homepage() {
         driver.get("https://www.bookswagon.com/");
 	}
 
@@ -45,6 +50,13 @@ public class selenium {
 	@Then("^user success login$")
 	public void user_success_login(){
 		driver.findElement(By.xpath("//input[@id='ctl00_phBody_SignUp_btnSubmit']")).click();
+	}
+	
+	
+	@After
+	public void cleanup() {
+		System.out.println("This will close all open browser");
+		driver.close();
 	}
 
 
